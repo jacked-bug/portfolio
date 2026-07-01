@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senthamizh Selvan S — BIM Modeler & Automation</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #000000;         /* Pure Black */
+            --nav-bg: rgba(0, 0, 0, 0.85); 
+            --text-main: #FFFFFF;        
+            --text-muted: #888888;       
+            --accent-red: #F02424;       /* Bold CAD Red */
+            --line-color: #222222;       
+            --max-width: 1200px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        ::selection { background-color: var(--accent-red); color: #fff; }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--line-color);
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand span { color: var(--accent-red); }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link:focus { color: var(--accent-red); }
+
+        .nav-link svg { width: 18px; height: 18px; fill: currentColor; }
+
+        .btn-resume {
+            border: 1px solid var(--line-color);
+            padding: 0.5rem 1rem;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-resume:hover {
+            border-color: var(--accent-red);
+            background: rgba(240, 36, 36, 0.1);
+        }
+
+        /* --- MAIN GALLERY --- */
+        main {
+            padding-top: 120px; 
+            padding-bottom: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4rem; /* Spacing between slides */
+        }
+
+        .slide-wrapper {
+            width: 90%;
+            max-width: var(--max-width);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slide-wrapper.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            background-color: #111; 
+            /* MILD WHITE DROP SHADOW */
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.08), 0 1px 3px rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--line-color);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .footer-text {
+            font-size: 1.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        .footer-contacts {
+            display: flex;
+            gap: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .footer-contacts a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-contacts a:hover { color: var(--accent-red); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-container { padding: 1rem; }
+            .brand { font-size: 1rem; }
+            .nav-link span { display: none; }
+            .nav-link.btn-resume span { display: inline; }
+            main { gap: 3rem; padding-top: 90px; }
+            .slide-wrapper { width: 95%; }
+            .footer-contacts { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="brand">Senthamizh<span>.</span></a>
+            <div class="nav-links">
+                <a href="mailto:senthamizh1031@gmail.com" class="nav-link" aria-label="Email">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    <span>Email</span>
+                </a>
+                <a href="https://www.linkedin.com/in/senthamizhselvans" target="_blank" rel="noopener noreferrer" class="nav-link" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-1.47 0-2.35.8-2.74 1.52v-1.3h-3.1v8.34h3.1v-4.57c0-1.21.23-2.39 1.74-2.39 1.48 0 1.5 1.38 1.5 2.47v4.52h3.15M5.6 7.5c-1 0-1.82-.82-1.82-1.82S4.6 3.86 5.6 3.86c1 0 1.82.82 1.82 1.82s-.82 1.82-1.82 1.82m1.55 11h-3.1V9.16h3.1v9.34z"/></svg>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="resume.pdf" target="_blank" class="nav-link btn-resume">
+                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Resume</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- SLIDE 1 -->
+        <section class="slide-wrapper">
+            <img src="1.jpg" alt="Portfolio Slide 1" class="slide-image" loading="eager">
+        </section>
+
+        <!-- SLIDE 2 -->
+        <section class="slide-wrapper">
+            <img src="2.jpg" alt="Portfolio Slide 2" class="slide-image" loading="lazy">
+        </section>
+
+        <!-- SLIDE 3 -->
+        <section class="slide-wrapper">
+            <img src="3.jpg" alt="Portfolio Slide 3" class="slide-image" loading="lazy">
+        </section>
+		
+        <!-- SLIDE 4 -->
+        <section class="slide-wrapper">
+            <img src="4.jpg" alt="Portfolio Slide 4" class="slide-image" loading="lazy">
+        </section>
+        <!-- SLIDE 5 -->
+        <section class="slide-wrapper">
+            <img src="5.jpg" alt="Portfolio Slide 5" class="slide-image" loading="lazy">
+        </section>
+        <!-- SLIDE 6 -->
+        <section class="slide-wrapper">
+            <img src="6.jpg" alt="Portfolio Slide 6" class="slide-image" loading="lazy">
+        </section>
+        <!-- SLIDE 7 -->
+        <section class="slide-wrapper">
+            <img src="7.jpg" alt="Portfolio Slide 7" class="slide-image" loading="lazy">
+        </section>
+        <!-- SLIDE 8 -->
+        <section class="slide-wrapper">
+            <img src="8.jpg" alt="Portfolio Slide 8" class="slide-image" loading="lazy">
+        </section>
+       
+
+        <!-- TO ADD MORE SLIDES: 
+             Simply copy the <section> block above and paste it right here.
+             Change "3.jpg" to "4.jpg", "5.jpg", etc., all the way up to 36.jpg -->
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-text">Available for new opportunities.</div>
+            <div class="footer-contacts">
+                <a href="mailto:senthamizh1031@gmail.com">senthamizh1031@gmail.com</a>
+                <a href="tel:+919677585031">+91 9677585031</a>
+                <a href="https://www.linkedin.com/in/senthamizhselvans" target="_blank">linkedin.com/in/senthamizhselvans</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.10 };
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            const slides = document.querySelectorAll('.slide-wrapper');
+            slides.forEach(slide => {
+                if (prefersReducedMotion) {
+                    slide.classList.add('is-visible'); 
+                } else {
+                    observer.observe(slide);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
