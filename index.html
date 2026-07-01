@@ -158,7 +158,7 @@
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            scroll-margin-top: 140px; /* Ensures fixed header doesn't cover slide when jumped to */
+            scroll-margin-top: 140px;
         }
 
         .slide-wrapper.is-visible {
@@ -174,7 +174,7 @@
             box-shadow: 0 15px 40px rgba(255, 255, 255, 0.08), 0 1px 3px rgba(255, 255, 255, 0.05);
         }
 
-        /* --- SLIDE COUNTER (Sticky UI) --- */
+        /* --- FLOATING UI (Counter & Top Button) --- */
         .slide-counter {
             position: fixed;
             bottom: 2rem;
@@ -189,30 +189,75 @@
             z-index: 90;
             border-radius: 2px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: opacity 0.3s ease;
+            pointer-events: none; /* So it doesn't block clicks */
         }
         .slide-counter span { color: var(--text-muted); }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: var(--nav-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--line-color);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+            cursor: pointer;
+            z-index: 90;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .back-to-top svg { width: 20px; height: 20px; fill: currentColor; }
 
         /* --- FOOTER --- */
         footer {
             border-top: 1px solid var(--line-color);
-            padding: 4rem 2rem;
+            padding: 6rem 2rem;
             text-align: center;
         }
 
         .footer-content {
-            max-width: var(--max-width);
+            max-width: 800px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
-        .footer-text { font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
-        .footer-contacts { display: flex; gap: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
-        .footer-contacts a { color: var(--text-muted); text-decoration: none; transition: color 0.2s ease; }
-        .footer-contacts a:hover { color: var(--accent-red); }
+        .footer-heading { 
+            font-size: 2rem; 
+            font-family: 'Space Grotesk', sans-serif; 
+            font-weight: 700; 
+            color: var(--text-main);
+        }
+
+        .footer-subtext { 
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.5;
+        }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
@@ -223,8 +268,13 @@
             .jump-container { padding-top: 90px; }
             main { gap: 3rem; padding-top: 30px; }
             .slide-wrapper { width: 95%; scroll-margin-top: 180px; }
-            .slide-counter { bottom: 1rem; right: 1rem; font-size: 0.8rem; }
-            .footer-contacts { flex-direction: column; gap: 1rem; }
+            
+            /* Move floating elements slightly closer to edge on mobile */
+            .slide-counter { bottom: 1rem; right: 1rem; font-size: 0.8rem; padding: 0.4rem 0.8rem; }
+            .back-to-top { bottom: 1rem; left: 1rem; width: 38px; height: 38px; }
+            
+            .footer-heading { font-size: 1.5rem; }
+            .footer-subtext { font-size: 1rem; }
         }
     </style>
 </head>
@@ -252,7 +302,6 @@
 
     <!-- QUICK JUMP LINKS -->
     <div class="jump-container">
-        <!-- These buttons will smoothly scroll the page to the specific slide IDs -->
         <button class="jump-btn" data-target="slide-4">BIM Modelling & Documentation</button>
         <button class="jump-btn" data-target="slide-28">BIM Automation</button>
         <button class="jump-btn" data-target="slide-31">AI in Render</button>
@@ -298,17 +347,19 @@
         <section class="slide-wrapper" id="slide-36"><img src="36.jpg" alt="Slide 36" class="slide-image" loading="lazy"></section>
     </main>
 
-    <!-- SLIDE TRACKER UI -->
+    <!-- FLOATING UI ELEMENTS -->
     <div class="slide-counter" id="slideCounter">1 <span>/ 36</span></div>
+    
+    <button class="back-to-top" id="backToTop" aria-label="Go to top of page">
+        <!-- Upward Arrow SVG -->
+        <svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
+    </button>
 
+    <!-- FOOTER -->
     <footer>
         <div class="footer-content">
-            <div class="footer-text">Available for new opportunities.</div>
-            <div class="footer-contacts">
-                <a href="mailto:senthamizh1031@gmail.com">senthamizh1031@gmail.com</a>
-                <a href="tel:+919677585031">+91 9677585031</a>
-                <a href="https://www.linkedin.com/in/senthamizhselvans" target="_blank">linkedin.com/in/senthamizhselvans</a>
-            </div>
+            <h2 class="footer-heading">Let's Build Better Projects Together.</h2>
+            <p class="footer-subtext">Architectural BIM Modeler specializing in Revit workflows, documentation, and BIM coordination.</p>
         </div>
     </footer>
 
@@ -316,16 +367,33 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
-            /* --- 1. JUMP BUTTON LOGIC --- */
+            /* --- 1. BACK TO TOP LOGIC --- */
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            // Show button only after scrolling down a bit (looks much more professional)
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+
+            // Smooth scroll to top on click
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Reset jump buttons state when going back to top
+                jumpBtns.forEach(b => b.classList.remove('active'));
+            });
+
+            /* --- 2. JUMP BUTTON LOGIC --- */
             const jumpBtns = document.querySelectorAll('.jump-btn');
             
             jumpBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    // Remove active class from all, add to clicked
                     jumpBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
 
-                    // Smooth scroll to the target slide
                     const targetId = btn.getAttribute('data-target');
                     const targetEl = document.getElementById(targetId);
                     
@@ -335,12 +403,11 @@
                 });
             });
 
-            /* --- 2. SCROLL REVEAL ANIMATION & COUNTER LOGIC --- */
+            /* --- 3. SCROLL REVEAL & COUNTER LOGIC --- */
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             const allSlides = document.querySelectorAll('.slide-wrapper');
             const counterEl = document.getElementById('slideCounter');
 
-            // Observer to handle the fade-up animation
             const revealObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -350,20 +417,23 @@
                 });
             }, { root: null, rootMargin: '0px', threshold: 0.10 });
 
-            // Observer to update the "1 / 36" counter in the bottom right corner
             const activeSlideObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Get the ID of the slide currently in view (e.g., "slide-4")
                         const slideId = entry.target.id;
-                        // Extract just the number
                         const slideNumber = slideId.split('-')[1]; 
                         counterEl.innerHTML = `${slideNumber} <span>/ 36</span>`;
+                        
+                        // Optional premium touch: Make counter fade out lightly if user is at the very bottom
+                        if(parseInt(slideNumber) === 36) {
+                            counterEl.style.opacity = '0.5';
+                        } else {
+                            counterEl.style.opacity = '1';
+                        }
                     }
                 });
-            }, { rootMargin: '-40% 0px -40% 0px' }); // Triggers when slide passes middle of screen
+            }, { rootMargin: '-40% 0px -40% 0px' }); 
 
-            // Initialize both observers on all 36 slides
             allSlides.forEach(slide => {
                 if (prefersReducedMotion) {
                     slide.classList.add('is-visible');
